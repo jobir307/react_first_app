@@ -26,16 +26,15 @@ export default App; */
  */
 
 
-import React from "react";
+import {Component, Fragment} from "react";
 
-class User extends React.Component {
+class User extends Component {
   constructor(props) {
     super(props)
     this.state = {
       counter: 20,
       age: ''
     }
-    this.incrementHandler = this.incrementHandler.bind(this)
   }
 
   incrementHandler = () => {
@@ -90,10 +89,10 @@ class User extends React.Component {
 
 const App = () => {
   return (
-    <div>
+    <Fragment>
       <User firstName="Jobir" lastName="Shukrullayev" link="https://www.youtube.com/watch?v=jbUKm-TVkow" />
       <User firstName="Xasan" lastName="Shokirov" link="https://www.youtube.com/watch?v=Y6o5CJV-SSk" />
-    </div>
+    </Fragment>
   )
 }
 
