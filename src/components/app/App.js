@@ -15,17 +15,51 @@ const App = () => {
 
 export default App; */
 
-/* const User = (props) => {
+import { Fragment, useState } from "react"
+const User = (props) => {
+  // const [count, setCount] = useState(0)
+  // const [isLogin, setIsLogin] = useState(true)
+
+  // const onIncrement = () => {
+  //   setCount(count + 1)
+  //   setCount(prevCount => prevCount + 1)
+  // }
+
+  // const onToggleLogin = () => {
+  //   setIsLogin(prevState => !prevState)
+  // }
+
+  const [state, setState] = useState({
+    count: 0,
+    isLogin: false
+  })
+
+  const onToggleLogin = () => {
+    setState(prevState => ({...prevState, isLogin: !prevState.isLogin}))
+  }
+
   return (
-    <div>
-      <h1>Mening ismim: {props.firstName}, sharifim: {props.lastName}</h1>
-      <a href={props.link}>Link</a>
+    <div className="w-50 m-auto mb-4">
+      <div className="border p-3 mt-5">
+        <h1>Mening ismim: {props.firstName}, sharifim: {props.lastName}</h1>
+        <a href={props.link}>Link</a>
+        <div className="d-flex justify-content-center">
+          <button onClick={() => setState({count: state.count + 1})} className="btn btn-success">Increment</button>
+          <button onClick={() => setState({count: state.count - 1})} className="btn btn-warning mx-2">Decrement</button>
+          <button onClick={() => setState({count: 0})} className="btn btn-info mx-2">Restart</button>
+          <p>{state.count}</p>
+        </div>
+        { state.isLogin ? <p className="text-center mt-3">Login</p> : null }
+        <div className="d-flex justify-content-center">
+          <button className="btn-outline-primary" onClick={onToggleLogin}>Toggle</button>
+        </div>
+      </div>
     </div>
   )
 }
- */
 
 
+/* 
 import {Component, Fragment} from "react";
 
 class User extends Component {
@@ -85,7 +119,7 @@ class User extends Component {
       </div>
     )
   }
-}
+} */
 
 const App = () => {
   return (
