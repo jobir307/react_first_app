@@ -15,28 +15,18 @@ const App = () => {
 
 export default App; */
 
-import { Fragment, useState } from "react"
+/* 
+import { Fragment, useState, useEffect } from "react"
 const User = (props) => {
-  // const [count, setCount] = useState(0)
-  // const [isLogin, setIsLogin] = useState(true)
-
-  // const onIncrement = () => {
-  //   setCount(count + 1)
-  //   setCount(prevCount => prevCount + 1)
-  // }
-
-  // const onToggleLogin = () => {
-  //   setIsLogin(prevState => !prevState)
-  // }
-
   const [state, setState] = useState({
     count: 0,
     isLogin: false
   })
 
-  const onToggleLogin = () => {
-    setState(prevState => ({...prevState, isLogin: !prevState.isLogin}))
-  }
+  useEffect(() => {
+    document.title = `Counter: ${state.count}`
+    console.log('effect');
+  }, [])
 
   return (
     <div className="w-50 m-auto mb-4">
@@ -57,17 +47,18 @@ const User = (props) => {
     </div>
   )
 }
-
+ */
 
 /* 
-import {Component, Fragment} from "react";
+import {Component, Fragment, useState} from "react";
 
 class User extends Component {
   constructor(props) {
     super(props)
     this.state = {
       counter: 20,
-      age: ''
+      age: '',
+      isLogin: false
     }
   }
 
@@ -90,10 +81,27 @@ class User extends Component {
   }
 
   ageHandler = (e, name) => {
-    console.log(name);
     this.setState({
       age: e.target.value
     })
+  }
+
+  onToggleLogin = () => {
+    this.setState(prevState => ({ isLogin: !prevState.isLogin }))
+  }
+
+  // ----- Lifecycle methods -----
+  componentDidMount(){
+    console.log('mounting');
+  }
+  
+  componentDidUpdate(){ // pageda qanaqadir o'zgarish bo'lsa ishlaydi
+    console.log('updated mounting');
+    document.title = `Counter: ${this.state.counter}`
+  }
+
+  componentWillUnmount(){ // pagedan biror narsa o'chsa ishlaydi
+    console.log('Unmounted');
   }
 
   render() {
@@ -103,7 +111,7 @@ class User extends Component {
     return (
       <div className="w-50 m-auto">
         <div className="border p-3 mt-5">
-          <h1>Mening ismim: {firstName}, sharifim: {lastName}, yoshim: {this.state.age}</h1>
+          <h1>Mening ismim: {firstName}, sharifim: {lastName}, yoshim: {age}</h1>
           <a href={link}>Mening kanalim</a>
           <div className="mt-2">
             <button onClick={this.incrementHandler} className="btn btn-success">Increment</button>
@@ -115,17 +123,75 @@ class User extends Component {
             <span>Yoshingiz: </span>
             <input type="text" onChange={(e) => this.ageHandler(e, 'sammi')} className="form-control"/>
           </form>
+          {
+            this.state.isLogin ? <p>LOGIN USER</p> : null
+          }
+          <button onClick={this.onToggleLogin} className="btn btn-secondary m-2">Toggle login</button>
         </div>
       </div>
     )
   }
-} */
-
+}
+*/
+/* 
 const App = () => {
+  const [isDisplay, setIsDisplay] = useState(false)
+
+  const deleteDisplayHandler = () => {
+    setIsDisplay(!isDisplay)
+  }
+
   return (
     <Fragment>
       <User firstName="Jobir" lastName="Shukrullayev" link="https://www.youtube.com/watch?v=jbUKm-TVkow" />
-      <User firstName="Xasan" lastName="Shokirov" link="https://www.youtube.com/watch?v=Y6o5CJV-SSk" />
+      {
+        isDisplay ? <User firstName="Xasan" lastName="Shokirov" link="https://www.youtube.com/watch?v=Y6o5CJV-SSk" /> : null
+      }
+      <button onClick={deleteDisplayHandler} className="btn btn-secondary m-2">Toggle user</button>
+    </Fragment>
+  )
+}
+
+
+export default App */
+
+import { Fragment, useState, useCallback } from "react"
+import CounterItem from "../counter-item/CounterItem"
+const User = () => {
+  const [counter, setCounter] = useState(10)
+  const [active, setActive] = useState(true)
+
+  const onIncrement = () => setCounter(counter => counter + 1)
+
+  const colors = {
+    color: active ? 'green' : 'red',
+    fontWeight: 'bold'
+  }
+
+  const onToggle = () => setActive(prevState => !prevState)
+  const counterGenerate = useCallback(() => {
+    return new Array(counter).fill('').map((_, idx) => `Counter number ${idx + 1}`)
+  }, [counter])
+
+  return (
+    <div className="w-50 m-auto mb-4">
+      <div className="border p-3 mt-5">
+        <p className="text-center" style={colors}>{counter}</p>
+        <div className="d-flex justify-content-center">
+          <button onClick={onIncrement} className="btn btn-success">Increment</button>
+          <button onClick={onToggle} className="btn btn-primary mx-2">Toggle</button>
+        </div>
+        <CounterItem counterGenerate={counterGenerate} />
+      </div>
+    </div>
+  )
+}
+
+const App = () => {
+
+  return (
+    <Fragment>
+      <User firstName="Jobir" lastName="Shukrullayev" link="https://www.youtube.com/watch?v=jbUKm-TVkow" />
     </Fragment>
   )
 }
